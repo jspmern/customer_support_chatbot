@@ -2,7 +2,7 @@
  import { ToolNode } from "@langchain/langgraph/prebuilt"
  import { StateGraph, Annotation, END } from "@langchain/langgraph";
 import { StateAnnotation } from "./state/state.ts";
-import { CATEGORIZATION_HUMAN_PROMPT, CATEGORIZATION_SYSTEM_PROMPT, SYSTEM_PROMPT } from "./prompt/prompt.ts";
+import { CATEGORIZATION_HUMAN_PROMPT, CATEGORIZATION_SYSTEM_PROMPT, marketingSystemPrompt, SYSTEM_PROMPT } from "./prompt/prompt.ts";
 import { getOffer } from "./tools/marketingTools.ts";
 import { AIMessage } from "@langchain/core/messages";
 
@@ -47,10 +47,7 @@ async function marketingAgent(state:typeof StateAnnotation.State)
 {
     //console.log("hi i am marketing agentstate", state)
   const llmInvoke=  modal.bindTools(marketingTool)
-  const marketingSystemPrompt=`You are part of the Marketing Team at Coder's Gyan, an ed-tech company that helps software developers excel in their careers through practical web development and Generative AI courses.
-You specialize in handling questions about promo codes, discounts, offers, and special campaigns.
-Answer clearly, concisely, and in a friendly manner. For queries outside promotions (course content, learning), politely redirect the student to the correct team.
-Important: Answer only using given context, else say I don't have enough information about it.`;
+  
  let trimmedHistory = state.messages;
 
     if (trimmedHistory.at(-1)?.getType() === 'ai') {
